@@ -135,6 +135,9 @@ def inference(Y, X, S, t, mask,
 	n, g, p, t = Y.shape[0], Y.shape[1], X.shape[1], mask.shape[1]
 
 	if use_gpu == True:
+		# load mask to gpu
+		mask = mask.cuda()
+
 		# beta
 		beta_g0 = Y.mean(dim=0).log()[None,:] * 0.8
 		beta_gp = torch.zeros(size=(p-1,g)).cuda()
@@ -211,10 +214,12 @@ def classify(Y, X, S, t, mask,
 
 	if type(mask) == pd.core.frame.DataFrame:
 		mask_torch = torch.tensor(mask.values, dtype=torch.float32)
+		if use_gpu == True:
+			mask_torch = mask_torch.cuda()
 		cell_type_list = mask.columns
 	else:
 		mask_torch = mask
-	
+
 	# get parameters
 	Delta, Beta, Phi = inference(Y, X, S, t, mask_torch, n_itr_max, err_bound, use_gpu)
 	Gamma = get_Gamma(Delta, Beta, Phi, Y, X, S, mask_torch)
