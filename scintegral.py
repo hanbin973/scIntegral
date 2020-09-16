@@ -139,7 +139,7 @@ def inference(Y, X, S, t, mask,
 		mask = mask.cuda()
 
 		# beta
-		beta_g0 = Y.mean(dim=0).log()[None,:] * 0.8
+		beta_g0 = (Y.mean(dim=0)/t).log()[None,:] * 0.8
 		beta_gp = torch.zeros(size=(p-1,g)).cuda()
 		beta = torch.cat((beta_g0, beta_gp))
 		Beta = beta.detach().requires_grad_(True)
