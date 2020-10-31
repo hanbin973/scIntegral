@@ -161,7 +161,7 @@ def inference(Y, X, S, t, mask,
 		Delta = (mask * distributions.normal.Normal(loc=2, scale=0.05).sample((g,t)).clamp(2)).detach().requires_grad_(True)
 
 		# phi
-		Phi = (2 * torch.ones(g)).cuda().detach().requires_grad_(True)
+		Phi = (2 * torch.ones(g)).detach().requires_grad_(True)
 	
 	# compute loss
 	loss_old = -get_LL(Delta, Beta, Phi, Y, X, S, mask)
