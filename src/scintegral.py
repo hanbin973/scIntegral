@@ -1,7 +1,7 @@
 import torch
 import torch.optim as optim
 import torch.nn as nn
-import torch.autograd.Function as Function
+from torch.autograd import Function
 
 import numpy as np
 import pandas as pd
@@ -134,7 +134,7 @@ class scintegral_model(nn.Module):
         self.marker_onehot = marker_onehot
                 
         # generate initial parameters
-        self.delta = nn.Parameter((prior_width * torch.randn((self.n_gene, self.n_type)) + prior_mean).clamp(prior_mean))
+        self.delta = nn.Parameter((prior_width * torch.randn((self.n_gene, self.n_type)) + prior_mean).clamp(prior_mean) * self.marker_onehot.to(torch.device('cpu')))
         self.beta = nn.Parameter(torch.zeros((self.n_batch, self.n_gene)))
         self.phi = nn.Parameter(disp_init * torch.ones(self.n_gene))
         
