@@ -1,35 +1,171 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>scintegral.classifier module &#8212; scIntegral 0.1.2 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>scintegral.classifier module &mdash; scIntegral 0.1.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scintegral.utils module" href="scintegral.utils.html" />
+    <link rel="prev" title="scintegral package" href="scintegral.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> scIntegral
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="scintegral.html">scintegral package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="scintegral.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">scintegral.classifier module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scintegral.utils.html">scintegral.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scintegral.html#module-scintegral">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">scIntegral</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="scintegral.html">scintegral package</a> &raquo;</li>
+        
+      <li>scintegral.classifier module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/scintegral.classifier.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-scintegral.classifier">
 <span id="scintegral-classifier-module"></span><h1>scintegral.classifier module<a class="headerlink" href="#module-scintegral.classifier" title="Permalink to this headline">¶</a></h1>
@@ -37,7 +173,7 @@
 <h2>Classifier<a class="headerlink" href="#classifier" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="scintegral.classifier.classify_cells">
-<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">classify_cells</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">device(type='cpu')</span></em>, <em class="sig-param"><span class="n">e_converge</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">lr</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">n_itr_max</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">prior_mean</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">prior_width</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">disp_init</span><span class="o">=</span><span class="default_value">1.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.classify_cells" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">classify_cells</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">device(type='cpu')</span></em>, <em class="sig-param"><span class="n">e_converge</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">lr</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">n_itr_max</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">prior_mean</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">prior_width</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">disp_init</span><span class="o">=</span><span class="default_value">1.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#classify_cells"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.classify_cells" title="Permalink to this definition">¶</a></dt>
 <dd><p>The cell-type classifier.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -66,36 +202,36 @@
 
 <dl class="py function">
 <dt id="scintegral.classifier.classify_cells_internal">
-<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">classify_cells_internal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">n_type</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em>, <em class="sig-param"><span class="n">device</span></em>, <em class="sig-param"><span class="n">e_converge</span></em>, <em class="sig-param"><span class="n">lr</span></em>, <em class="sig-param"><span class="n">n_itr_max</span></em>, <em class="sig-param"><span class="n">prior_mean</span></em>, <em class="sig-param"><span class="n">prior_width</span></em>, <em class="sig-param"><span class="n">disp_init</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.classify_cells_internal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">classify_cells_internal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">n_type</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em>, <em class="sig-param"><span class="n">device</span></em>, <em class="sig-param"><span class="n">e_converge</span></em>, <em class="sig-param"><span class="n">lr</span></em>, <em class="sig-param"><span class="n">n_itr_max</span></em>, <em class="sig-param"><span class="n">prior_mean</span></em>, <em class="sig-param"><span class="n">prior_width</span></em>, <em class="sig-param"><span class="n">disp_init</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#classify_cells_internal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.classify_cells_internal" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="scintegral.classifier.nb_logpmf">
-<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">nb_logpmf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.nb_logpmf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">nb_logpmf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#nb_logpmf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.nb_logpmf" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="scintegral.classifier.phi_filter">
-<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">phi_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.phi_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">phi_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#phi_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.phi_filter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="scintegral.classifier.phi_filter_grad">
-<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">phi_filter_grad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.phi_filter_grad" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">phi_filter_grad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#phi_filter_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.phi_filter_grad" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="scintegral.classifier.posterior_probs">
-<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">posterior_probs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">delta</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.posterior_probs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">posterior_probs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">delta</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#posterior_probs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.posterior_probs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt id="scintegral.classifier.scintegral_loss">
-<em class="property">class </em><code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">scintegral_loss</code><a class="headerlink" href="#scintegral.classifier.scintegral_loss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">scintegral_loss</code><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_loss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.autograd.function.Function</span></code></p>
 <dl class="py method">
 <dt id="scintegral.classifier.scintegral_loss.backward">
-<em class="property">static </em><code class="sig-name descname">backward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ctx</span></em>, <em class="sig-param"><span class="n">grad_output</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.scintegral_loss.backward" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">backward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ctx</span></em>, <em class="sig-param"><span class="n">grad_output</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_loss.backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_loss.backward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a formula for differentiating the operation.</p>
 <p>This function is to be overridden by all subclasses.</p>
 <p>It must accept a context <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> as the first argument, followed by
@@ -113,7 +249,7 @@ output.</p>
 
 <dl class="py method">
 <dt id="scintegral.classifier.scintegral_loss.forward">
-<em class="property">static </em><code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ctx</span></em>, <em class="sig-param"><span class="n">delta</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.scintegral_loss.forward" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ctx</span></em>, <em class="sig-param"><span class="n">delta</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_loss.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_loss.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs the operation.</p>
 <p>This function is to be overridden by all subclasses.</p>
 <p>It must accept a context ctx as the first argument, followed by any
@@ -126,11 +262,11 @@ during the backward pass.</p>
 
 <dl class="py class">
 <dt id="scintegral.classifier.scintegral_loss_nograd">
-<em class="property">class </em><code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">scintegral_loss_nograd</code><a class="headerlink" href="#scintegral.classifier.scintegral_loss_nograd" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">scintegral_loss_nograd</code><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_loss_nograd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_loss_nograd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.autograd.function.Function</span></code></p>
 <dl class="py method">
 <dt id="scintegral.classifier.scintegral_loss_nograd.forward">
-<em class="property">static </em><code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ctx</span></em>, <em class="sig-param"><span class="n">delta</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.scintegral_loss_nograd.forward" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ctx</span></em>, <em class="sig-param"><span class="n">delta</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_loss_nograd.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_loss_nograd.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs the operation.</p>
 <p>This function is to be overridden by all subclasses.</p>
 <p>It must accept a context ctx as the first argument, followed by any
@@ -143,11 +279,11 @@ during the backward pass.</p>
 
 <dl class="py class">
 <dt id="scintegral.classifier.scintegral_model">
-<em class="property">class </em><code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">scintegral_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">n_type</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em>, <em class="sig-param"><span class="n">prior_mean</span></em>, <em class="sig-param"><span class="n">prior_width</span></em>, <em class="sig-param"><span class="n">disp_init</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.scintegral_model" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">scintegral.classifier.</code><code class="sig-name descname">scintegral_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expr_mat</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">size_factor</span></em>, <em class="sig-param"><span class="n">n_type</span></em>, <em class="sig-param"><span class="n">marker_onehot</span></em>, <em class="sig-param"><span class="n">prior_mean</span></em>, <em class="sig-param"><span class="n">prior_width</span></em>, <em class="sig-param"><span class="n">disp_init</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <dl class="py method">
 <dt id="scintegral.classifier.scintegral_model.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">only_loss</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#scintegral.classifier.scintegral_model.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">only_loss</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scintegral/classifier.html#scintegral_model.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scintegral.classifier.scintegral_model.forward" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -161,66 +297,59 @@ during the backward pass.</p>
 </div>
 
 
+           </div>
+           
           </div>
-          
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">scIntegral</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scintegral.utils.html" class="btn btn-neutral float-right" title="scintegral.utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="scintegral.html" class="btn btn-neutral float-left" title="scintegral package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+  
 
+  <hr/>
 
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Hanbin Lee
 
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-
-
-
+</footer>
 
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2020, Hanbin Lee.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/scintegral.classifier.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
 
-    
+    </section>
 
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
     
-  </body>
+   
+
+</body>
 </html>

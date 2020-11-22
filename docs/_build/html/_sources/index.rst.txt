@@ -10,6 +10,7 @@ Welcome to scIntegral's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   scintegral 
 
 
 Indices and tables

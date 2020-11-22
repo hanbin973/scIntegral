@@ -1,0 +1,490 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>scintegral.classifier &mdash; scIntegral 0.1.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> scIntegral
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../scintegral.html">scintegral package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">scIntegral</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>scintegral.classifier</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for scintegral.classifier</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Classifier</span>
+<span class="sd">        ~~~~~~~~~~~</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Function</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<div class="viewcode-block" id="nb_logpmf"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.nb_logpmf">[docs]</a><span class="k">def</span> <span class="nf">nb_logpmf</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="n">log_norm_const</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">log_unnormalized_prob</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">log_norm_const</span> <span class="o">+</span> <span class="n">log_unnormalized_prob</span></div>
+
+<div class="viewcode-block" id="phi_filter"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.phi_filter">[docs]</a><span class="k">def</span> <span class="nf">phi_filter</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">phi</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="phi_filter_grad"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.phi_filter_grad">[docs]</a><span class="k">def</span> <span class="nf">phi_filter_grad</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">phi</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">phi</span><span class="o">-</span><span class="mi">100</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="posterior_probs"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.posterior_probs">[docs]</a><span class="k">def</span> <span class="nf">posterior_probs</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="c1"># modify phi</span>
+        <span class="n">phi_filtered</span> <span class="o">=</span> <span class="n">phi_filter</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+        <span class="c1"># n x g x t</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">size_factor</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> \
+            <span class="p">(</span><span class="n">cov_mat</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">beta</span><span class="p">)[:,:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">marker_onehot</span> <span class="o">*</span> <span class="n">delta</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:,:])</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+
+        <span class="c1"># some preliminary calculations</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">])</span>
+
+        <span class="c1"># n x t</span>
+        <span class="n">log_probs</span> <span class="o">=</span> <span class="n">nb_logpmf</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">],</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">],</span> <span class="mi">1</span><span class="o">-</span><span class="n">probs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># n x t -&gt; n</span>
+        <span class="n">log_prob</span> <span class="o">=</span> <span class="n">log_probs</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># n -&gt; out</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">log_prob</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="c1"># compute posterior prob</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="p">(</span><span class="n">log_probs</span> <span class="o">-</span> <span class="n">log_prob</span><span class="p">[:,</span><span class="kc">None</span><span class="p">])</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">gamma</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<span class="c1"># ref: https://pytorch.org/docs/stable/notes/extending.html</span>
+<div class="viewcode-block" id="scintegral_loss"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_loss">[docs]</a><span class="k">class</span> <span class="nc">scintegral_loss</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
+<div class="viewcode-block" id="scintegral_loss.forward"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_loss.forward">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="c1"># modify phi</span>
+            <span class="n">phi_filtered</span> <span class="o">=</span> <span class="n">phi_filter</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+            <span class="c1"># n x g x t</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">size_factor</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="n">cov_mat</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">beta</span><span class="p">)[:,:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">marker_onehot</span> <span class="o">*</span> <span class="n">delta</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:,:])</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+
+            <span class="c1"># some preliminary calculations</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">])</span>
+            <span class="n">ypr</span> <span class="o">=</span> <span class="n">expr_mat</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]</span>
+
+            <span class="c1"># n x t</span>
+            <span class="n">log_probs</span> <span class="o">=</span> <span class="n">nb_logpmf</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">],</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">],</span> <span class="mi">1</span><span class="o">-</span><span class="n">probs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># n x t -&gt; n</span>
+            <span class="n">log_prob</span> <span class="o">=</span> <span class="n">log_probs</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># n -&gt; out</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">log_prob</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+            <span class="c1"># -- start computing gradient --</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="p">(</span><span class="n">log_probs</span> <span class="o">-</span> <span class="n">log_prob</span><span class="p">[:,</span><span class="kc">None</span><span class="p">])</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">expr_mat</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">])</span> <span class="o">*</span> <span class="n">probs</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">ypr</span><span class="p">)</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">phi_filtered</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> \
+                <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span> <span class="o">+</span> <span class="n">A</span><span class="o">/</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">])</span>
+            <span class="n">d_phi_filter</span> <span class="o">=</span> <span class="n">phi_filter_grad</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+            <span class="n">grad_delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,:])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">marker_onehot</span>
+            <span class="n">grad_beta</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">@</span> <span class="n">gamma</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">cov_mat</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,:])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">grad_phi</span> <span class="o">=</span> <span class="n">d_phi_filter</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">D</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,:])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># save for backward</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">grad_delta</span><span class="p">,</span> <span class="n">grad_beta</span><span class="p">,</span> <span class="n">grad_phi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="scintegral_loss.backward"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_loss.backward">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="n">grad_delta</span><span class="p">,</span> <span class="n">grad_beta</span><span class="p">,</span> <span class="n">grad_phi</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+
+        <span class="k">return</span> <span class="n">grad_delta</span><span class="p">,</span> <span class="n">grad_beta</span><span class="p">,</span> <span class="n">grad_phi</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div></div>
+
+<div class="viewcode-block" id="scintegral_loss_nograd"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_loss_nograd">[docs]</a><span class="k">class</span> <span class="nc">scintegral_loss_nograd</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
+<div class="viewcode-block" id="scintegral_loss_nograd.forward"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_loss_nograd.forward">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="c1"># modify phi</span>
+            <span class="n">phi_filtered</span> <span class="o">=</span> <span class="n">phi_filter</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+            <span class="c1"># n x g x t</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">size_factor</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="n">cov_mat</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">beta</span><span class="p">)[:,:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">marker_onehot</span> <span class="o">*</span> <span class="n">delta</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:,:])</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+
+            <span class="c1"># some preliminary calculations</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">])</span>
+
+            <span class="c1"># n x t</span>
+            <span class="n">log_probs</span> <span class="o">=</span> <span class="n">nb_logpmf</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">[:,:,</span><span class="kc">None</span><span class="p">],</span> <span class="n">phi_filtered</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">],</span> <span class="mi">1</span><span class="o">-</span><span class="n">probs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># n x t -&gt; n</span>
+            <span class="n">log_prob</span> <span class="o">=</span> <span class="n">log_probs</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># n -&gt; out</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">log_prob</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">out</span></div></div>
+
+<div class="viewcode-block" id="scintegral_model"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_model">[docs]</a><span class="k">class</span> <span class="nc">scintegral_model</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">n_type</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">,</span>
+                <span class="n">prior_mean</span><span class="p">,</span>
+                <span class="n">prior_width</span><span class="p">,</span>
+                <span class="n">disp_init</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># save size parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span> <span class="o">=</span> <span class="n">expr_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_gene</span> <span class="o">=</span> <span class="n">expr_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_batch</span> <span class="o">=</span> <span class="n">cov_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_type</span> <span class="o">=</span> <span class="n">n_type</span>
+
+        <span class="c1"># save data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expr_mat</span> <span class="o">=</span> <span class="n">expr_mat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov_mat</span> <span class="o">=</span> <span class="n">cov_mat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size_factor</span> <span class="o">=</span> <span class="n">size_factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">marker_onehot</span> <span class="o">=</span> <span class="n">marker_onehot</span>
+
+        <span class="c1"># generate initial parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">((</span><span class="n">prior_width</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_gene</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_type</span><span class="p">))</span> <span class="o">+</span> <span class="n">prior_mean</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">prior_mean</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">marker_onehot</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_batch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_gene</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">disp_init</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_gene</span><span class="p">))</span>
+
+<div class="viewcode-block" id="scintegral_model.forward"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.scintegral_model.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">only_loss</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">only_loss</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">scintegral_loss</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expr_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_factor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">marker_onehot</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">only_loss</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">scintegral_loss_nograd</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expr_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_factor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">marker_onehot</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div></div>
+
+<div class="viewcode-block" id="classify_cells_internal"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.classify_cells_internal">[docs]</a><span class="k">def</span> <span class="nf">classify_cells_internal</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">n_type</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">,</span>
+                    <span class="n">device</span><span class="p">,</span>
+                    <span class="n">e_converge</span><span class="p">,</span>
+                    <span class="n">lr</span><span class="p">,</span>
+                    <span class="n">n_itr_max</span><span class="p">,</span>
+                    <span class="n">prior_mean</span><span class="p">,</span>
+                    <span class="n">prior_width</span><span class="p">,</span>
+                    <span class="n">disp_init</span><span class="p">):</span>
+
+    <span class="c1"># move data to device</span>
+    <span class="n">expr_mat</span> <span class="o">=</span> <span class="n">expr_mat</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">cov_mat</span> <span class="o">=</span> <span class="n">cov_mat</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">size_factor</span> <span class="o">=</span> <span class="n">size_factor</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">marker_onehot</span> <span class="o">=</span> <span class="n">marker_onehot</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># initialize model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">scintegral_model</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">n_type</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">,</span> <span class="n">prior_mean</span><span class="p">,</span> <span class="n">prior_width</span><span class="p">,</span> <span class="n">disp_init</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="n">optim_all</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">beta</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">closure_all</span><span class="p">():</span>
+        <span class="n">optim_all</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="n">loss_old</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="c1"># optimize all parameters</span>
+        <span class="n">optim_all</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">closure_all</span><span class="p">)</span>
+
+    <span class="n">optim_all</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">closure_all</span><span class="p">():</span>
+        <span class="n">optim_all</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="n">loss_old</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_itr_max</span><span class="p">):</span>
+        <span class="c1"># optimize all parameters</span>
+        <span class="n">optim_all</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">closure_all</span><span class="p">)</span>
+
+        <span class="c1"># get current loss and update</span>
+        <span class="n">loss_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">loss_old</span> <span class="o">-</span> <span class="n">loss_new</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loss_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">e_converge</span> <span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">loss_old</span> <span class="o">=</span> <span class="n">loss_new</span>
+
+    <span class="n">optim_all</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="o">*</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_itr_max</span><span class="p">):</span>
+        <span class="c1"># optimize all parameters</span>
+        <span class="n">optim_all</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">closure_all</span><span class="p">)</span>
+
+        <span class="c1"># get current loss and update</span>
+        <span class="n">loss_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">loss_old</span> <span class="o">-</span> <span class="n">loss_new</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loss_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">e_converge</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">loss_old</span> <span class="o">=</span> <span class="n">loss_new</span>
+
+    <span class="n">optim_all</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="o">*</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_itr_max</span><span class="p">):</span>
+        <span class="c1"># optimize all parameters</span>
+        <span class="n">optim_all</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">closure_all</span><span class="p">)</span>
+
+        <span class="c1"># get current loss and update</span>
+        <span class="n">loss_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">only_loss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">loss_old</span> <span class="o">-</span> <span class="n">loss_new</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loss_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">e_converge</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">loss_old</span> <span class="o">=</span> <span class="n">loss_new</span>
+
+    <span class="c1"># infer cell types</span>
+    <span class="n">cell_types</span> <span class="o">=</span> <span class="n">posterior_probs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">cell_types</span></div>
+
+<div class="viewcode-block" id="classify_cells"><a class="viewcode-back" href="../../scintegral.classifier.html#scintegral.classifier.classify_cells">[docs]</a><span class="k">def</span> <span class="nf">classify_cells</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">,</span>
+                    <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">),</span>
+                    <span class="n">e_converge</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+                    <span class="n">lr</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                    <span class="n">n_itr_max</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                    <span class="n">prior_mean</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">prior_width</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                    <span class="n">disp_init</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The cell-type classifier.</span>
+
+
+<span class="sd">    :param expr_mat: An n (number of cells) x g (number of genes) matrix that contains the raw expression counts.</span>
+<span class="sd">    :param cov_mat: An n x p (number of batches) matrix that contains the batch membership of samples.</span>
+<span class="sd">    :param size_factor: An n vector of size factors (or any offset variable replacing the size factor).</span>
+<span class="sd">    :param marker_onehot: A g x t (number of cell-types) matrix containing marker information for each cell-type.</span>
+<span class="sd">    :param device: A device used in computation (default: cpu).</span>
+<span class="sd">    :param e_converge: A real number used to determine convergence (default:1e-4).</span>
+<span class="sd">    :param lr: A real number used as the initial learning-rate (default:0.2).</span>
+<span class="sd">    :param n_itr_max: The maximum number of iterations in the likielihood optimization step (default:1000).</span>
+<span class="sd">    :param prior_mean: The threshold parameter for initialization (default:2).</span>
+<span class="sd">    :param prior_with: The width parameter for initialization (default:0.05).</span>
+<span class="sd">    :param disp_init: The initial dispersion parameter of the negative binomial likelihood (default:1.5).</span>
+
+
+<span class="sd">    :returns list: A list of assigned cell-type labels.</span>
+<span class="sd">    :returns class: A torch module object containing the fitted parameters.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set dtype to float32</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">set_default_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># save type names</span>
+    <span class="n">type_names</span> <span class="o">=</span> <span class="n">marker_onehot</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">n_type</span> <span class="o">=</span> <span class="n">type_names</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># convert numpy arrays to torch tensors</span>
+    <span class="n">expr_mat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">cov_mat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">cov_mat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">size_factor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">size_factor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">marker_onehot</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">marker_onehot</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="n">model</span><span class="p">,</span> <span class="n">cell_types_int</span> <span class="o">=</span> <span class="n">classify_cells_internal</span><span class="p">(</span><span class="n">expr_mat</span><span class="p">,</span> <span class="n">cov_mat</span><span class="p">,</span> <span class="n">size_factor</span><span class="p">,</span> <span class="n">n_type</span><span class="p">,</span> <span class="n">marker_onehot</span><span class="p">,</span>
+                                                <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+                                                <span class="n">e_converge</span><span class="o">=</span><span class="n">e_converge</span><span class="p">,</span>
+                                                <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span>
+                                                <span class="n">n_itr_max</span><span class="o">=</span><span class="n">n_itr_max</span><span class="p">,</span>
+                                                <span class="n">prior_mean</span><span class="o">=</span><span class="n">prior_mean</span><span class="p">,</span>
+                                                <span class="n">prior_width</span><span class="o">=</span><span class="n">prior_width</span><span class="p">,</span>
+                                                <span class="n">disp_init</span><span class="o">=</span><span class="n">disp_init</span><span class="p">)</span>
+
+    <span class="n">cell_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">type_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cell_types_int</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span>
+
+    <span class="k">return</span> <span class="n">cell_types</span><span class="p">,</span> <span class="n">model</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Hanbin Lee
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
