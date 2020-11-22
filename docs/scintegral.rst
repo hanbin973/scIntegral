@@ -1,4 +1,4 @@
-scintegral package
+API reference
 ==================
 
 Submodules
