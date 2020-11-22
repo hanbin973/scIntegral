@@ -47,21 +47,19 @@
 <li><p><strong>size_factor</strong> – An n vector of size factors (or any offset variable replacing the size factor).</p></li>
 <li><p><strong>marker_onehot</strong> – A g x t (number of cell-types) matrix containing marker information for each cell-type.</p></li>
 <li><p><strong>device</strong> – A device used in computation (default: cpu).</p></li>
-<li><p><strong>e_converge</strong> (<em>float</em>) – A real number used to determine convergence (default:1e-4)</p></li>
-<li><p><strong>lr</strong> (<em>float</em>) – A real number used as the initial learning-rate (default:0.2).</p></li>
+<li><p><strong>e_converge</strong> – A real number used to determine convergence (default:1e-4).</p></li>
+<li><p><strong>lr</strong> – A real number used as the initial learning-rate (default:0.2).</p></li>
+<li><p><strong>n_itr_max</strong> – The maximum number of iterations in the likielihood optimization step (default:1000).</p></li>
+<li><p><strong>prior_mean</strong> – The threshold parameter for initialization (default:2).</p></li>
+<li><p><strong>prior_with</strong> – The width parameter for initialization (default:0.05).</p></li>
+<li><p><strong>disp_init</strong> – The initial dispersion parameter of the negative binomial likelihood (default:1.5).</p></li>
 </ul>
 </dd>
-</dl>
-<p>:param int n_itr_max : The maximum number of iterations in the likielihood optimization step (default:1000).
-:param float prior_mean: The threshold parameter for initialization (default:2).
-:param float prior_with: The width parameter for initialization (default:0.05).
-:param float disp_init: The initial dispersion parameter of the negative binomial likelihood (default:1.5).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns list</dt>
-<dd class="field-odd"><p>A list of assigned cell-type labels.</p>
+<dt class="field-even">Returns list</dt>
+<dd class="field-even"><p>A list of assigned cell-type labels.</p>
 </dd>
-<dt class="field-even">Returns class</dt>
-<dd class="field-even"><p>A torch module object containing the fitted parameters.</p>
+<dt class="field-odd">Returns class</dt>
+<dd class="field-odd"><p>A torch module object containing the fitted parameters.</p>
 </dd>
 </dl>
 </dd></dl>

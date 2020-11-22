@@ -247,12 +247,12 @@ def classify_cells(expr_mat, cov_mat, size_factor, marker_onehot,
     :param size_factor: An n vector of size factors (or any offset variable replacing the size factor).
     :param marker_onehot: A g x t (number of cell-types) matrix containing marker information for each cell-type.
     :param device: A device used in computation (default: cpu).
-    :param float e_converge: A real number used to determine convergence (default:1e-4)
-    :param float lr: A real number used as the initial learning-rate (default:0.2).
-    :param int n_itr_max : The maximum number of iterations in the likielihood optimization step (default:1000).
-    :param float prior_mean: The threshold parameter for initialization (default:2).
-    :param float prior_with: The width parameter for initialization (default:0.05).
-    :param float disp_init: The initial dispersion parameter of the negative binomial likelihood (default:1.5).
+    :param e_converge: A real number used to determine convergence (default:1e-4).
+    :param lr: A real number used as the initial learning-rate (default:0.2).
+    :param n_itr_max: The maximum number of iterations in the likielihood optimization step (default:1000).
+    :param prior_mean: The threshold parameter for initialization (default:2).
+    :param prior_with: The width parameter for initialization (default:0.05).
+    :param disp_init: The initial dispersion parameter of the negative binomial likelihood (default:1.5).
 
 
     :returns list: A list of assigned cell-type labels.
