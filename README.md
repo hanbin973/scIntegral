@@ -26,14 +26,13 @@ marker_dict = {
 	...
 }
 ```
-
-Then run 
+ run 
 ```python
 scint.utils.marker_input_creator(marker_dict)
 ```
-which returns a onehot `pandas` dataframe in which scIntegral takes as a input.
+which returns a onehot `pandas` dataframe in which scIntegral takes as an input.
 
-Finally, to run scIntegral's cell classifier 
+Finally, to run scIntegral's cell classifier,
 ```python
 scint.classifier.classify_cells(...)
 ```
