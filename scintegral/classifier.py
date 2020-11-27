@@ -1,11 +1,3 @@
-"""
-        Classifier
-        ~~~~~~~~~~~
-
-
-"""
-
-
 import torch
 import torch.optim as optim
 import torch.nn as nn
@@ -143,8 +135,15 @@ class scintegral_model(nn.Module):
 
         # generate initial parameters
         self.delta = nn.Parameter((prior_width * torch.randn((self.n_gene, self.n_type)) + prior_mean).clamp(prior_mean) * self.marker_onehot.to(torch.device('cpu')))
-        self.beta = nn.Parameter(torch.zeros((self.n_batch, self.n_gene)))
         self.phi = nn.Parameter(disp_init * torch.ones(self.n_gene))
+
+        # initializing beta needs some work
+        A = cov_mat.T @ cov_mat
+        B = cov_mat.T @ (expr_mat / size_factor[:,None])
+        alpha, _ = torch.solve(B, A)
+        beta_intercept = alpha[0,:].clamp(1e-2,1e3).log()
+        beta_coef = (1 + alpha[1:,:]/alpha[0,:][None,:]).clamp(1e-2,1e3).log()
+        self.beta = nn.Parameter(torch.cat((beta_intercept[None,:], beta_coef))*0.5)
 
     def forward(self, only_loss=False):
         if only_loss == False:
@@ -173,18 +172,6 @@ def classify_cells_internal(expr_mat, cov_mat, size_factor, n_type, marker_oneho
     model = scintegral_model(expr_mat, cov_mat, size_factor, n_type, marker_onehot, prior_mean, prior_width, disp_init)
     model.to(device)
 
-    optim_all = optim.Adam([model.beta], lr=lr)
-    def closure_all():
-        optim_all.zero_grad()
-        loss = -model(only_loss=False)
-        loss.backward()
-        return loss
-
-    loss_old = -model(only_loss=True)
-    for itr in range(5):
-        # optimize all parameters
-        optim_all.step(closure_all)
-
     optim_all = optim.Adam(model.parameters(), lr=lr)
     def closure_all():
         optim_all.zero_grad()
@@ -203,41 +190,26 @@ def classify_cells_internal(expr_mat, cov_mat, size_factor, n_type, marker_oneho
             break
         loss_old = loss_new
 
-    optim_all = optim.Adam(model.parameters(), lr=lr*0.2)
-    for itr in range(n_itr_max):
-        # optimize all parameters
-        optim_all.step(closure_all)
-
-        # get current loss and update
-        loss_new = -model(only_loss=True)
-        if (loss_old - loss_new) / torch.abs(loss_old) < e_converge:
-            break
-        loss_old = loss_new
-
-    optim_all = optim.Adam(model.parameters(), lr=lr*0.01)
-    for itr in range(n_itr_max):
-        # optimize all parameters
-        optim_all.step(closure_all)
-
-        # get current loss and update
-        loss_new = -model(only_loss=True)
-        if (loss_old - loss_new) / torch.abs(loss_old) < e_converge:
-            break
-        loss_old = loss_new
-
     # infer cell types
     cell_types = posterior_probs(model.delta, model.beta, model.phi, expr_mat, cov_mat, size_factor, marker_onehot)
 
     return model, cell_types
 
+"""
+        Classifier
+        ~~~~~~~~~~~
+
+
+"""
+
 def classify_cells(expr_mat, cov_mat, size_factor, marker_onehot,
                     device=torch.device('cpu'),
                     e_converge=1e-4,
-                    lr=0.2,
+                    lr=0.05,
                     n_itr_max=1000,
                     prior_mean=2,
                     prior_width=0.05,
-                    disp_init=1.5):
+                    disp_init=2):
     """
     The cell-type classifier.
 
