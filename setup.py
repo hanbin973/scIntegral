@@ -3,7 +3,7 @@ import setuptools
 
 setup(
 		name = 'scintegral',
-		version = '0.1.2',
+		version = '0.1.3',
 		author = 'Hanbin Lee',
 		author_email = 'hanbin973@gmail.com',
 		description = 'Semi-supervised scRNA-seq cell clasifier',
