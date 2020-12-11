@@ -13,8 +13,8 @@ pip install scintegral
 
 scIntegral's cell classifier can be loaded through
 ```python
-import scintegral.classifer as scint.classifier
-import scintegral.utils as scint.utils
+import scintegral.classifer as scint_classifier
+import scintegral.utils as scint_utils
 ```
 
 scIntegral requires a marker information for each cell-type.
@@ -22,19 +22,19 @@ Given a python dictionary of the following format,
 ```python
 marker_dict = {
 	...
-	'Fibroblasts':{'Col3a1', 'Col8a1'}
+	'Fibroblasts':['Col3a1', 'Col8a1']
 	...
 }
 ```
  run 
 ```python
-scint.utils.marker_input_creator(marker_dict)
+scint_utils.marker_input_creator(marker_dict)
 ```
 which returns a onehot `pandas` dataframe in which scIntegral takes as an input.
 
 Finally, to run scIntegral's cell classifier,
 ```python
-scint.classifier.classify_cells(...)
+scint_classifier.classify_cells(...)
 ```
 
 The arguments can be found at the [documentation](https://scintegral.readthedocs.io/en/latest/index.html) page.
