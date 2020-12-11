@@ -22,7 +22,7 @@ Given a python dictionary of the following format,
 ```python
 marker_dict = {
 	...
-	'Fibroblasts':{'Col3a1', 'Col8a1'}
+	'Fibroblasts':['Col3a1', 'Col8a1']
 	...
 }
 ```
