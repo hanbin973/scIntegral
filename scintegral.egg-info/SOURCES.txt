@@ -1,0 +1,10 @@
+README.md
+setup.py
+scintegral/__init__.py
+scintegral/classifier.py
+scintegral/utils.py
+scintegral.egg-info/PKG-INFO
+scintegral.egg-info/SOURCES.txt
+scintegral.egg-info/dependency_links.txt
+scintegral.egg-info/requires.txt
+scintegral.egg-info/top_level.txt

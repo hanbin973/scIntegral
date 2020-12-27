@@ -1,0 +1,16 @@
+Metadata-Version: 1.2
+Name: scintegral
+Version: 0.1.3
+Summary: Semi-supervised scRNA-seq cell clasifier
+Home-page: https://github.com/hanbin973/scIntegral
+Author: Hanbin Lee
+Author-email: hanbin973@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.4
